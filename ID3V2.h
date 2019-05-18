@@ -10,10 +10,14 @@
 
 class ID3V2 {
 private:
-  const int ID3V2_HEADER_SIZE = 10;
-  static const int FRAME_BYTES_TO_READ = 512;
+  const int FRAME_BYTES_TO_READ = 512;
+  const int HEADER_LENGTH = 10;
 
   bool validTag;
+  
+  Frame album;
+  Frame artist;
+  Frame title;
   
   struct Header {
     char identifier[4] = { 0 };
@@ -26,10 +30,10 @@ private:
 
   bool isValidIdentifier() const;
   bool isValidVersion() const;
+  
+  void readTag(const char* path);
+  bool readHeader(const char* path);
 
-  Frame album;
-  Frame artist;
-  Frame title;
 
 public:
   ID3V2();
@@ -42,10 +46,7 @@ public:
   bool isValidTag() const;
 
   void getFrameData(FRAME_TYPE frameType, char *data, size_t bytesToRead);
-  void readTag(const char* path);
-  bool readHeader(const char* path);
 
-  static const int HEADER_LENGTH = 10;
 };
 
 #endif

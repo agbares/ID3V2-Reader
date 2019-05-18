@@ -7,6 +7,10 @@ int main()
   const char* path = { "saymyname.mp3" };
   ID3V2 tag(path);
 
+  std::cout << "Size frame" << sizeof(Frame) << std::endl;
+
+  std::cout << "Size: " << sizeof(tag) << std::endl;
+
   std::cout << "Valid? " << tag.isValidTag() << std::endl;
 
   char data[Frame::NUM_BYTES_TO_READ] = { 0 };

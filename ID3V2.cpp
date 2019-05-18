@@ -79,9 +79,10 @@ void ID3V2::readTag(const char* path) {
   std::fstream file;
   file.open(path);
 
-  if (!file.is_open())
-    std::cout << "File open failure!" << std::endl;
-  else {
+  if (!file.is_open()) {
+    printf("File open failure!\n");
+
+  } else {
     
     char data[FRAME_BYTES_TO_READ];
     file.seekg(HEADER_LENGTH);
@@ -94,19 +95,11 @@ void ID3V2::readTag(const char* path) {
       if (isDesiredFrame(frameHeader.id)) {
         Frame frame(frameHeader);
 
-        // for (int i = 0; i < 4; i++) {
-        //   printf("%c", frame.header.id[i]);
-        // }
-
         // For some reason the ID3V2 frame's contain an empty byte between the header and the data.
         int dataOffset = 1;
         int bytesToRead = (frame.header.size < Frame::NUM_BYTES_TO_READ) ? frame.header.size - dataOffset : Frame::NUM_BYTES_TO_READ;
 
         strncat(frame.data, (data + offset + HEADER_LENGTH + dataOffset), bytesToRead);
-
-        // std::cout << "\nsize: " << frame.header.size << std::endl;
-        // std::cout << "Data: " << frame.data << std::endl;
-        // std::cout << "\n";
 
         FRAME_TYPE frameType = strToFrameType(frameHeader.id);
         switch (frameType) {
@@ -140,7 +133,7 @@ bool ID3V2::readHeader(const char* path) {
   file.open(path);
 
   if (!file.is_open()) {
-    std::cout << "File open failure!" << std::endl;
+    printf("File open failure!\n");
     return false;
 
   } else {
